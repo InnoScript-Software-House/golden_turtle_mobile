@@ -3,6 +3,6 @@
 	"appName": "Golden Turtle",
 	"webDir": "www",
 	"bundledWebRuntime": false,
-	"CAPACITOR_ANDROID_STUDIO_PATH" : "/snap/bin/android-studio",
-	"ANDROID_SDK_ROOT" : "/snap/bin/android-studio"
+	"CAPACITOR_ANDROID_STUDIO_PATH": "/snap/bin/android-studio",
+	"ANDROID_SDK_ROOT": "/snap/bin/android-studio"
 }

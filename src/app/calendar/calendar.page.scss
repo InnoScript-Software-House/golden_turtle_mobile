@@ -1,0 +1,15 @@
+ion-datetime {
+    max-width: 100%;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    margin-inline-start: 15px;
+    margin-inline-end: 15px;
+}
+
+ion-datetime {
+    --background: #eaeafe;
+    --background-rgb: 0, 17, 253;
+    
+    border-radius: 16px;
+    box-shadow: rgba(0, 17, 253, 0.3) 0px 10px 15px -3px;
+}

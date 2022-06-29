@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title> Calendar </ion-title>
+    <ion-buttons slot="end">
+      <ion-button  id="open-calendar"  expand="block">
+        <ion-icon slot="icon-only" name="calendar-number-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <app-realtime></app-realtime>
+  <app-schedule-list></app-schedule-list>
+</ion-content>
+
+<ion-modal trigger="open-calendar" (willDismiss)="cancel()">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title> Select Date </ion-title>
+
+        <ion-buttons slot="end">
+          <ion-button (click)="cancel()">Cancel</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content class="ion-padding">
+      <ion-datetime presentation="date" showDefaultButtons></ion-datetime>
+    </ion-content>
+  </ng-template>
+</ion-modal>
