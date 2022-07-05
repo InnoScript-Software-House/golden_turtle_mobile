@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import * as moment from 'moment';
+import { TODAY_NUMBER } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-schedule-list',
@@ -7,8 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ScheduleListComponent implements OnInit {
 
-  constructor() { }
+  @Input() data: Array<TODAY_NUMBER> = [];
+  @Input() timeFormat: string = localStorage.getItem('time-format');
+  @Input() scheduleList: Array<TODAY_NUMBER> = [];
+  @Input() targeDate: string;
 
-  ngOnInit() {}
+  constructor() {}
 
+  ngOnInit() {
+    this.targeDate = moment().format('Y-DD-MM');
+  }
 }

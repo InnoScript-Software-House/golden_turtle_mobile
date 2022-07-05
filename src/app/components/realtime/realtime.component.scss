@@ -27,7 +27,6 @@ ion-label > label {
 
 .flex-wrapper {
     width: 100%;
-    margin-top: 15px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -41,16 +40,11 @@ ion-label > label {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: blue;
+    background-color: #5C6BC0 ;
     font-size: 40px;
     font-weight: bolder;
     color: #fff;
     border-radius: 50%;
-}
-
-.caption-text {
-    color: blue;
-    font-weight: bolder;
-    font-size: 18px;
+    margin-top: 5px;
     margin-bottom: 5px;
 }

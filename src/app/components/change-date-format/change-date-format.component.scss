@@ -1,0 +1,15 @@
+.input-wrapper {
+    width: 100%;
+    padding-inline-start: 15px;
+    padding-inline-end: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+ion-select {
+    --padding-bottom: 0px;
+    --padding-start: 0px;
+    --placeholer-color: #5C6BC0;
+}
