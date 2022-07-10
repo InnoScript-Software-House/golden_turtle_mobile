@@ -1,0 +1,11 @@
+<div class="input-wrapper">
+  <ion-select 
+    class="change-date-format-select"
+    placeholder="Select Date Format" 
+    (ionChange)="changeDateFormat($event)"
+    selectedText={{timeFormat}}
+  >
+    <ion-select-option value="12-hours"> 12-hour 1:00 PM </ion-select-option>
+    <ion-select-option value="24-hours"> 24-hours 13:00 </ion-select-option>
+  </ion-select>
+</div>

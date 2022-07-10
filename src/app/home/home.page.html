@@ -5,6 +5,11 @@
 </ion-header>
 
 <ion-content>
-  <app-realtime></app-realtime>
-  <app-schedule-list></app-schedule-list>
+  <app-change-date-format></app-change-date-format>
+  <app-realtime [dateTime]="dateTimeformat"></app-realtime>
+  <app-schedule-list
+    [timeFormat]="timeFormat" 
+    [scheduleList]="scheduleList"
+  >
+  </app-schedule-list>
 </ion-content>

@@ -1,9 +1,9 @@
 .schedule-item {
-    margin-inline-start: 15px;
-    margin-inline-end: 15px;
+    margin-inline-start: 5px;
+    margin-inline-end: 5px;
     --border-width: 3px!important;
     --border-color: #FFD700;
-    margin-top: 15px;
+    margin-top: 3px;
 }
 
 .flex-column {
@@ -16,27 +16,31 @@
 
 .title {
    font-weight: bolder;
-   font-size: 30px;
-   color: blue; 
-   margin-bottom: 10px;
+   font-size: 20px;
+   color: #5C6BC0; 
+   margin-bottom: 2px;
 }
 
 .text {
-    font-size: 13px;
-    font-weight: bolder;
-    color: blue;
+    font-size: 14px;
 }
 
 .number {
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: blue;
-    font-size: 40px;
+    background-color: #5C6BC0;
+    font-size: 20px;
     font-weight: bolder;
     color: #fff;
     border-radius: 50%;
+}
+
+ion-label {
+    margin: 0px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }

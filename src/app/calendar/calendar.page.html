@@ -10,8 +10,13 @@
 </ion-header>
 
 <ion-content>
-  <app-realtime></app-realtime>
-  <app-schedule-list></app-schedule-list>
+  <app-change-date-format></app-change-date-format>
+  <app-realtime [dateTime]="dateTimeformat"></app-realtime>
+  <app-schedule-list 
+    [timeFormat]="timeFormat" 
+    [scheduleList]="scheduleList"
+    [targeDate]="chooseDate"
+  ></app-schedule-list>
 </ion-content>
 
 <ion-modal trigger="open-calendar" (willDismiss)="cancel()">
@@ -27,7 +32,7 @@
     </ion-header>
 
     <ion-content class="ion-padding">
-      <ion-datetime presentation="date" showDefaultButtons></ion-datetime>
+      <ion-datetime presentation="date" showDefaultButtons (ionChange)="search($event)"></ion-datetime>
     </ion-content>
   </ng-template>
 </ion-modal>
