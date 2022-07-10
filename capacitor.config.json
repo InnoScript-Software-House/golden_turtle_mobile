@@ -1,6 +1,6 @@
 {
-	"appId": "io.goldenturtle.innoscript",
-	"appName": "Golden Turtle",
+	"appId": "io.turtlelive.innoscript",
+	"appName": "Turtle Live",
 	"webDir": "www",
 	"bundledWebRuntime": false,
 	"CAPACITOR_ANDROID_STUDIO_PATH" : "/snap/bin/android-studio",

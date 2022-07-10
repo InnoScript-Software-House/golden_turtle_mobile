@@ -26,7 +26,16 @@
 @import "~@ionic/angular/css/flex-utils.css";
 
 ion-toolbar {
-    --background: #5C6BC0;
+    --background: #0532ad;
+    --color: #fff;
+}
+
+ion-tabs {
+    --background: #0532ad;
+}
+
+ion-tab-bar {
+    --background: #0532ad;
     --color: #fff;
 }
 

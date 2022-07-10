@@ -3,6 +3,7 @@ ion-item {
     margin-inline-end: 15px;
     --border-width: 2px!important;
     --border-color: #FFD700;
+    --background: #0532ad;
 }
 
 .flex-column {
@@ -40,7 +41,7 @@ ion-label > label {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: #5C6BC0 ;
+    background-color: #0532ad ;
     font-size: 40px;
     font-weight: bolder;
     color: #fff;
