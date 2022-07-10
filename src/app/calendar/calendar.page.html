@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-title> Calendar </ion-title>
     <ion-buttons slot="end">
-      <ion-button  id="open-calendar"  expand="block">
+      <ion-button  id="open-calendar" expand="block">
         <ion-icon slot="icon-only" name="calendar-number-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -10,13 +10,19 @@
 </ion-header>
 
 <ion-content>
+  <ion-text class="pay-attention"> We're closed on every Monday </ion-text>
   <app-change-date-format></app-change-date-format>
-  <app-realtime [dateTime]="dateTimeformat"></app-realtime>
-  <app-schedule-list 
-    [timeFormat]="timeFormat" 
-    [scheduleList]="scheduleList"
-    [targeDate]="chooseDate"
-  ></app-schedule-list>
+  <div 
+    class="schedule-wrapper"
+    *ngFor="let schedule of scheduleList"
+  >
+    <label class="schedule-label"> {{schedule[0].schedule_date }}</label>
+    <app-schedule-list
+      [timeFormat]="timeFormat" 
+      [scheduleList]="schedule"
+      [header]="false"
+    ></app-schedule-list>
+  </div>
 </ion-content>
 
 <ion-modal trigger="open-calendar" (willDismiss)="cancel()">
@@ -26,13 +32,13 @@
         <ion-title> Select Date </ion-title>
 
         <ion-buttons slot="end">
-          <ion-button (click)="cancel()">Cancel</ion-button>
+          <ion-button (click)="cancel()"> OK </ion-button>
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
 
     <ion-content class="ion-padding">
-      <ion-datetime presentation="month" showDefaultButtons (ionChange)="search($event)"></ion-datetime>
+      <ion-datetime presentation="month-year" (ionChange)="search($event)"></ion-datetime>
     </ion-content>
   </ng-template>
 </ion-modal>

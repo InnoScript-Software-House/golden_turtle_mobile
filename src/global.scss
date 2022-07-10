@@ -49,3 +49,20 @@ ion-list-header {
     font-weight: bolder;
     padding-bottom: 5px;
 }
+
+.pay-attention {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: large;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    background-color: gold;
+    margin-inline-start: 15px;
+    margin-inline-end: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: #000;
+}

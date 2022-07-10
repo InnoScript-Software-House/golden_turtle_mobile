@@ -24,11 +24,7 @@ export interface TODAY_NUMBER {
   updated_at? : string;
 }
 
-
-
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root'})
 export class DataService {
 
   constructor() { }
@@ -40,7 +36,7 @@ export class DataService {
       { schedule_time: '11:00 AM', btc: 0, etc: 0, lucky_number: null, schedule_date: moment(date, 'Y-DD-MM').format('Y-MM-DD') },
       { schedule_time: '1:30 PM', btc: 0, etc: 0, lucky_number: null, schedule_date: moment(date, 'Y-DD-MM').format('Y-MM-DD') },
       { schedule_time: '4:00 PM', btc: 0, etc: 0, lucky_number: null, schedule_date: moment(date, 'Y-DD-MM').format('Y-MM-DD') },
-      { schedule_time: '6:00 PM', btc: 0, etc: 0, lucky_number: null, schedule_date: moment(date, 'Y-DD-MM').format('Y-MM-DD') },
+      { schedule_time: '6:30 PM', btc: 0, etc: 0, lucky_number: null, schedule_date: moment(date, 'Y-DD-MM').format('Y-MM-DD') },
       { schedule_time: '9:00 PM', btc: 0, etc: 0, lucky_number: null, schedule_date: moment(date, 'Y-DD-MM').format('Y-MM-DD') }
     ];
 
@@ -73,5 +69,17 @@ export class DataService {
     });
     
     return result;
+  }
+
+  public historyRecord = async (month: string) => {
+    const options = {
+      url: `${environment.app_api}/lucky-number?month=${month}`
+    };
+
+    const response = await Http.get(options);
+
+    if(response && response.status === 200) {
+      return response.data.data;
+    }
   }
 }
