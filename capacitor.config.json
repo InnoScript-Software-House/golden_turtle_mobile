@@ -21,6 +21,9 @@
 		  "layoutName": "launch_screen",
 		  "useDialog": true
 		}
+	},
+	"server": {
+		"cleartext": true
 	}
 }
 	

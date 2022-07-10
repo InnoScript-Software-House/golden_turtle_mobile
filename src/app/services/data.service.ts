@@ -1,6 +1,17 @@
 import { Injectable } from '@angular/core';
-import { ApiService } from '../shares/api.service';
+
+/**
+ * Import services, providers and lib
+ */
+import { Http } from '@capacitor-community/http';
+import { environment } from 'src/environments/environment';
 import * as moment from 'moment';
+
+interface HTTP_OPTIONS {
+  url: string;
+  headers?: any;
+  params?: any;
+}
 
 export interface TODAY_NUMBER {
   id?: string | number;
@@ -13,17 +24,18 @@ export interface TODAY_NUMBER {
   updated_at? : string;
 }
 
+
+
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
 
-  constructor(
-    private apiService: ApiService
-  ) { }
+  constructor() { }
 
   public getTodayNumber = async (date: string) => {
     let getTodayNumber: Array<TODAY_NUMBER> = [];
+
     const defaultNumber: Array<TODAY_NUMBER> = [
       { schedule_time: '11:00 AM', btc: 0, etc: 0, lucky_number: null, schedule_date: moment(date, 'Y-DD-MM').format('Y-MM-DD') },
       { schedule_time: '1:30 PM', btc: 0, etc: 0, lucky_number: null, schedule_date: moment(date, 'Y-DD-MM').format('Y-MM-DD') },
@@ -32,10 +44,14 @@ export class DataService {
       { schedule_time: '9:00 PM', btc: 0, etc: 0, lucky_number: null, schedule_date: moment(date, 'Y-DD-MM').format('Y-MM-DD') }
     ];
 
-    const response = await this.apiService.getRequest(`lucky-number?today=${date}`).toPromise();
+    const options = {
+      url: `${environment.app_api}/lucky-number?today=${date}`
+    };
 
-    if(response && response.status_code === 200) {
-      getTodayNumber = response.data;
+    const response = await Http.get(options);
+
+    if(response && response.status === 200) {
+      getTodayNumber = response.data.data;
     }
 
     getTodayNumber.map((value: TODAY_NUMBER) => {

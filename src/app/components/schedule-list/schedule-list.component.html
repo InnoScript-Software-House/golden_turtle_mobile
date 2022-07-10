@@ -9,8 +9,8 @@
   >
     <ion-label slot="start" class="flex-column"> 
       <label class="title"> {{ schedule.schedule_time | date: timeFormat }}</label>
-      <span class="text"> BTC - {{schedule.btc}} </span>
-      <span class="text"> ETC -{{schedule.etc}} </span>
+      <span class="text"> BTC - {{schedule.btc | number: '1.0-0': 'en' }} </span>
+      <span class="text"> ETC -{{schedule.etc | number: '1.0-0': 'en' }} </span>
     </ion-label>
 
     <ion-label slot="end" class="flex-column-end">

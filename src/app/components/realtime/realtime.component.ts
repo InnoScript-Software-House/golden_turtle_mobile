@@ -14,12 +14,14 @@ export class RealtimeComponent implements OnInit {
 
   @Input() dateTime: string;
 
-  breakTime: Array<string> = [
-    "11:00 AM", "1:30 PM", "4:00 PM", "6:30 PM", "9:00 PM", "12:22 AM"
+  breakTime: Array<any> = [
+    { start_time: '11:00 AM', end_time: '11:30 AM' },
+    { start_time: '1:30 PM', end_time: '2:00 PM' },
+    { start_time: '4:00 PM', end_time: '4:30 PM' },
+    { start_time: '6:00 PM', end_time: '6:30 PM' },
+    { start_time: '9:00 PM', end_time: '9:30 PM' },
   ];
-
-  // breakTime: Array<number> = [1,2,3,4];
-
+  
   rates: any = {
     btc: { amount: 0, base: "BTC", currency: "MMK" },
     etc: { amount: 0, base: "ETC", currency: "MMK" }
@@ -27,14 +29,12 @@ export class RealtimeComponent implements OnInit {
 
   constructor(
     private api: ApiService
-  ) { 
-    console.log(this.dateTime);
-  }
+  ) { }
 
   private getRandomInt(min: number, max: number) {
     min = Math.ceil(min);
     max = Math.floor(max);
-
+    
     const intNumber: number = Math.floor(Math.random() * (max - min) + min);
 
     if(intNumber < 10) {
@@ -62,8 +62,8 @@ export class RealtimeComponent implements OnInit {
       }, 10000);
     }
 
-    const getBTC = await this.api.getRequest('prices/BTC-MMK/sell', 'api').toPromise();
-    const getETC = await this.api.getRequest('prices/ETC-MMK/sell', 'api').toPromise();
+    const getBTC = await this.api.getRequest('prices/BTC-MMK/sell');
+    const getETC = await this.api.getRequest('prices/ETC-MMK/sell');
 
     this.rates = {
       btc : getBTC.data ? getBTC.data : null,
