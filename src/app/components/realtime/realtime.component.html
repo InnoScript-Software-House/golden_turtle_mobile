@@ -3,12 +3,12 @@
   <ion-item lines="none">
     <ion-label slot="start" class="flex-column"> 
       <label> {{ rates.btc.base }} </label>
-      <small> {{ rates.btc.amount | number: '1.0-0': 'en' }} </small>
+      <small> {{ btcRate | number: '1.0-0': 'en' }}.{{btcPoint}} </small>
     </ion-label>
 
     <ion-label slot="end" class="flex-column-end">
       <label> {{ rates.etc.base }} </label>
-      <small> {{ rates.etc.amount | number: '1.0-0': 'en' }} </small>
+      <small> {{ etcRate | number: '1.0-0': 'en' }}.{{etcPoint}} </small>
     </ion-label>
   </ion-item>
 </ion-list>

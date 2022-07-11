@@ -1,6 +1,7 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title> Golden Turtle - Houng Koung </ion-title>
+    <ion-title> Golden Turtle - Hong Kong </ion-title>
+    <img src="../../assets/images/logo.png" width="80" height="80" slot="end" />
   </ion-toolbar>
 </ion-header>
 
@@ -10,6 +11,9 @@
   <app-schedule-list
     [timeFormat]="timeFormat" 
     [scheduleList]="scheduleList"
+    [header]="true"
   >
   </app-schedule-list>
+
+  <ion-text class="pay-attention"> We're closed on every Monday </ion-text>
 </ion-content>

@@ -13,8 +13,9 @@ export class ScheduleListComponent implements OnInit {
   @Input() timeFormat: string = localStorage.getItem('time-format');
   @Input() scheduleList: Array<TODAY_NUMBER> = [];
   @Input() targeDate: string;
+  @Input() header: boolean = false;
 
-  constructor() {}
+  constructor() { }
 
   ngOnInit() {
     this.targeDate = moment().format('Y-DD-MM');

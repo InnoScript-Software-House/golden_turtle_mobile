@@ -4,12 +4,26 @@ ion-datetime {
     margin-bottom: 15px;
     margin-inline-start: 15px;
     margin-inline-end: 15px;
+    --background: #0532ad;
+    --color: #fff;
 }
 
 ion-datetime {
-    --background: #eaeafe;
     --background-rgb: 0, 17, 253;
-    
     border-radius: 16px;
     box-shadow: rgba(0, 17, 253, 0.3) 0px 10px 15px -3px;
+}
+
+ion-button > button {
+    --color: #fff;
+}
+
+.schedule-wrapper {
+    margin-top: 20px;
+}
+
+.schedule-label {
+    font-size: large;
+    font-weight: bold;
+    margin-left: 20px;
 }

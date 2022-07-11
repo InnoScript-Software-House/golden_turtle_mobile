@@ -26,7 +26,16 @@
 @import "~@ionic/angular/css/flex-utils.css";
 
 ion-toolbar {
-    --background: #5C6BC0;
+    --background: #0532ad;
+    --color: #fff;
+}
+
+ion-tabs {
+    --background: #0532ad;
+}
+
+ion-tab-bar {
+    --background: #0532ad;
     --color: #fff;
 }
 
@@ -39,4 +48,21 @@ ion-list-header {
     height: initial!important;
     font-weight: bolder;
     padding-bottom: 5px;
+}
+
+.pay-attention {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: large;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    background-color: gold;
+    margin-inline-start: 15px;
+    margin-inline-end: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: #000;
 }

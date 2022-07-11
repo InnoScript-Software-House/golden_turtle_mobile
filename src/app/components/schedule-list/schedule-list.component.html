@@ -1,5 +1,5 @@
 <ion-list>
-  <ion-list-header>
+  <ion-list-header *ngIf="header">
     <ion-label> {{ targeDate }} </ion-label>
   </ion-list-header>
   <ion-item 
@@ -9,8 +9,6 @@
   >
     <ion-label slot="start" class="flex-column"> 
       <label class="title"> {{ schedule.schedule_time | date: timeFormat }}</label>
-      <span class="text"> BTC - {{schedule.btc | number: '1.0-0': 'en' }} </span>
-      <span class="text"> ETC -{{schedule.etc | number: '1.0-0': 'en' }} </span>
     </ion-label>
 
     <ion-label slot="end" class="flex-column-end">
