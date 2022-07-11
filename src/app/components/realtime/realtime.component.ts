@@ -89,12 +89,12 @@ export class RealtimeComponent implements OnInit {
     }, 6000);
 
 
-    this.timerSubscription = timer(0, 6000).pipe(
+    this.timerSubscription = timer(0, 10000).pipe(
       map(() => {
         const currentTime = moment().format('h:mm A');
-        if(todayNumber){
-          const getLuckyNumber = todayNumber.filter((value) => value.lucky_number !== null);
 
+        if(todayNumber){
+          const getLuckyNumber = todayNumber.filter((value) => value.lucky_number !== null && moment(new Date(value.schedule_time).getTime()).format('h:mm A') >= currentTime);
           getLuckyNumber.map((value, index) => {
             
             const luckyHour = moment(new Date(value.schedule_time).getTime()).format('h:mm A');
@@ -108,6 +108,20 @@ export class RealtimeComponent implements OnInit {
               this.btcPoint = Math.floor(Math.random() * (9 - 0) + 0)+this.luckyNumber.slice(0,1);
               this.etcRate = parseInt(getETC.data.amount);
               this.etcPoint = Math.floor(Math.random() * (9 - 0) + 0)+this.luckyNumber.slice(1,2);
+              if( currentTime >= '9:00 PM'){
+                console.log('work');
+                setTimeout(() => {
+                  startNumber = setInterval(() => {
+                    this.luckyNumber = this.getRandomInt(0, 99);
+                    this.btcRate = parseInt(getBTC.data.amount) + parseInt(this.getRandomInt(10000, 99999));
+                    this.btcPoint = Math.floor(Math.random() * (9 - 0) + 0)+this.luckyNumber.slice(0,1);
+                    this.etcRate = parseInt(getETC.data.amount) + parseInt(this.getRandomInt(1000,9999));
+                    this.etcPoint = Math.floor(Math.random() * (9 - 0) + 0)+this.luckyNumber.slice(1,2);
+                  },6000);
+                  this.reachTime = false;
+                },this.remainTime(value.schedule_time + 600 * 60000));
+                return;
+              }
               setTimeout(() => {
                 startNumber = setInterval(() => {
                   this.luckyNumber = this.getRandomInt(0, 99);
