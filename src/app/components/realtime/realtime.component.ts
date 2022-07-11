@@ -4,7 +4,7 @@ import { FormatService } from 'src/app/services/format.service';
 import { ApiService } from 'src/app/shares/api.service';
 import * as moment from 'moment';
 import { Subscription, timer } from 'rxjs';
-import { map } from 'rxjs/operators'
+import { last, map } from 'rxjs/operators'
 
 const data = {
     btc: "343543",
@@ -25,6 +25,10 @@ export class RealtimeComponent implements OnInit {
   currentDate: Date = new Date();
   timerSubscription: Subscription;
   reachTime: boolean = false;
+  btcRate: number;
+  btcPoint: any;
+  etcRate: number;
+  etcPoint: any;
 
   @Input() dateTime: string;
 
@@ -59,16 +63,31 @@ export class RealtimeComponent implements OnInit {
       return intNumber.toString();
     }
   }
+
+  private remainTime (lasttime){
+    const time = moment(new Date(lasttime).getTime() + 30*60000).valueOf() - moment().valueOf();
+    if(time > 0 ){
+      return time;
+    }
+    return 0;
+  }
   
   async ngOnInit() {
     this.luckyNumber = this.getRandomInt(0,99);
+    const getBTC = await this.api.getRequest('prices/BTC-MMK/sell');
+    const getETC = await this.api.getRequest('prices/ETC-MMK/sell');
     const today = moment().format('Y-MM-DD');
     let getTime = this.currentDate.toLocaleString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }).toString();
     const todayNumber = await this.dataService.getTodayNumber(today);
 
     let startNumber: any = setInterval(() => {
       this.luckyNumber = this.getRandomInt(0, 99);
+      this.btcRate = parseInt(getBTC.data.amount) + parseInt(this.getRandomInt(10000, 99999));
+      this.btcPoint = Math.floor(Math.random() * (9 - 0) + 0)+this.luckyNumber.slice(0,1);
+      this.etcRate = parseInt(getETC.data.amount) + parseInt(this.getRandomInt(1000,9999));
+      this.etcPoint = Math.floor(Math.random() * (9 - 0) + 0)+this.luckyNumber.slice(1,2);
     }, 6000);
+
 
     this.timerSubscription = timer(0, 6000).pipe(
       map(() => {
@@ -83,14 +102,22 @@ export class RealtimeComponent implements OnInit {
 
             if( ( currentTime >= luckyHour && currentTime <= interval ) && this.reachTime === false){
               clearInterval(startNumber);
-              this.reachTime = true;
               this.luckyNumber = value.lucky_number.toString();
+              this.reachTime = true;
+              this.btcRate = parseInt(getBTC.data.amount);
+              this.btcPoint = Math.floor(Math.random() * (9 - 0) + 0)+this.luckyNumber.slice(0,1);
+              this.etcRate = parseInt(getETC.data.amount);
+              this.etcPoint = Math.floor(Math.random() * (9 - 0) + 0)+this.luckyNumber.slice(1,2);
               setTimeout(() => {
                 startNumber = setInterval(() => {
-                  this.luckyNumber = this.getRandomInt(0,99);
+                  this.luckyNumber = this.getRandomInt(0, 99);
+                  this.btcRate = parseInt(getBTC.data.amount) + parseInt(this.getRandomInt(10000, 99999));
+                  this.btcPoint = Math.floor(Math.random() * (9 - 0) + 0)+this.luckyNumber.slice(0,1);
+                  this.etcRate = parseInt(getETC.data.amount) + parseInt(this.getRandomInt(1000,9999));
+                  this.etcPoint = Math.floor(Math.random() * (9 - 0) + 0)+this.luckyNumber.slice(1,2);
                 },6000);
                 this.reachTime = false;
-              }, 1800000);
+              }, this.remainTime(value.schedule_time));
               return;
             }
             else{
@@ -100,10 +127,7 @@ export class RealtimeComponent implements OnInit {
         }
       })
     ).subscribe();
-
-
-    const getBTC = await this.api.getRequest('prices/BTC-MMK/sell');
-    const getETC = await this.api.getRequest('prices/ETC-MMK/sell');
+  
 
     this.rates = {
       btc : getBTC.data ? getBTC.data : null,
