@@ -29,6 +29,7 @@ export class RealtimeComponent implements OnInit {
   btcPoint: any;
   etcRate: number;
   etcPoint: any;
+  isLoading: boolean = true;
 
   @Input() dateTime: string;
 
@@ -76,14 +77,16 @@ export class RealtimeComponent implements OnInit {
     this.luckyNumber = this.getRandomInt(0,99);
     const getBTC = await this.api.getRequest('prices/BTC-MMK/sell');
     const getETC = await this.api.getRequest('prices/ETC-MMK/sell');
+
     const today = moment().format('Y-MM-DD');
-    let getTime = this.currentDate.toLocaleString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }).toString();
-    const todayNumber = await this.dataService.getTodayNumber(today);
+
+    // let getTime = this.currentDate.toLocaleString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }).toString();
+    const todayNumber = (await this.dataService.getTodayNumber(today)).data;
 
     let startNumber: any = setInterval(() => {
       this.luckyNumber = this.getRandomInt(0, 99);
       this.btcRate = parseInt(getBTC.data.amount) + parseInt(this.getRandomInt(10000, 99999));
-      this.btcPoint = Math.floor(Math.random() * (9 - 0) + 0)+this.luckyNumber.slice(0,1);
+      this.btcPoint = this.luckyNumber.slice(0,1) + Math.floor(Math.random() * (9 - 0) + 0);
       this.etcRate = parseInt(getETC.data.amount) + parseInt(this.getRandomInt(1000,9999));
       this.etcPoint = Math.floor(Math.random() * (9 - 0) + 0)+this.luckyNumber.slice(1,2);
     }, 6000);
@@ -94,8 +97,8 @@ export class RealtimeComponent implements OnInit {
         const currentTime = moment().format('h:mm A');
 
         if(todayNumber){
-          const getLuckyNumber = todayNumber.filter((value) => value.lucky_number !== null && moment(new Date(value.schedule_time).getTime()).format('h:mm A') >= currentTime);
-          getLuckyNumber.map((value, index) => {
+          const getLuckyNumber = todayNumber.filter((value: any) => value.lucky_number !== null && moment(new Date(value.schedule_time).getTime()).format('h:mm A') >= currentTime);
+          getLuckyNumber.map((value: any, index: number) => {
             
             const luckyHour = moment(new Date(value.schedule_time).getTime()).format('h:mm A');
             const interval = moment(new Date(value.schedule_time).getTime() + 30*60000).format('h:mm A');
@@ -109,7 +112,7 @@ export class RealtimeComponent implements OnInit {
               this.etcRate = parseInt(getETC.data.amount);
               this.etcPoint = Math.floor(Math.random() * (9 - 0) + 0)+this.luckyNumber.slice(1,2);
               if( currentTime >= '9:00 PM'){
-                console.log('work');
+
                 setTimeout(() => {
                   startNumber = setInterval(() => {
                     this.luckyNumber = this.getRandomInt(0, 99);
@@ -139,6 +142,8 @@ export class RealtimeComponent implements OnInit {
             }
           });
         }
+
+        this.isLoading = false;
       })
     ).subscribe();
   

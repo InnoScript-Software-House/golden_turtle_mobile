@@ -68,7 +68,10 @@ export class DataService {
       return value;
     });
     
-    return result;
+    return {
+      data: result,
+      isLoading: false
+    };
   }
 
   public historyRecord = async (month: string) => {
@@ -79,7 +82,19 @@ export class DataService {
     const response = await Http.get(options);
 
     if(response && response.status === 200) {
-      return response.data.data;
+      return response.data;
+    }
+  }
+
+  public getAboutUs = async () => {
+    const options = {
+      url: `${environment.app_api}/setting`
+    };
+
+    const response = await Http.get(options);
+
+    if(response && response.status === 200) {
+      return response.data;
     }
   }
 }

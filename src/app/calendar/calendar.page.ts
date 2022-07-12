@@ -15,6 +15,7 @@ export class CalendarPage implements OnInit {
   dateTimeformat: string = 'MMM d, y, hh:mm a';
   scheduleList: Array<any> = [];
   chooseDate: string;
+  isLoading: boolean = true;
 
   @ViewChild(IonModal) modal: IonModal;
 
@@ -28,8 +29,9 @@ export class CalendarPage implements OnInit {
     })
   }
 
-  private getHistroy = async () => {
-    const getSchedule = await this.dataService.historyRecord(this.chooseDate);
+  private getHistroy = async ($event? : any) => {
+    const response = await this.dataService.historyRecord(this.chooseDate);
+    const getSchedule = response.data;
     const schedule_dates = [];
 
     getSchedule.map((value: any) => {
@@ -47,12 +49,13 @@ export class CalendarPage implements OnInit {
       })
 
       this.scheduleList.push(filterSchedules);
-    });
-  }
 
-  private loadingData = async () => {
-    this.chooseDate = moment().format('Y-DD-MM');
-    this.getHistroy();
+      if($event) {
+        $event.target.complete();
+      }
+
+      this.isLoading = false;
+    });
   }
 
   cancel() {
@@ -60,12 +63,20 @@ export class CalendarPage implements OnInit {
   }
 
   search = async ($event: any) => {
+    this.isLoading = true;
     this.chooseDate = moment($event.target.value).format('Y-DD-MM');
     this.scheduleList = [];
     this.getHistroy();
   }
 
+  doRefresh($event: any) {
+    this.isLoading = true;
+    this.chooseDate = moment().format('Y-DD-MM');
+    this.getHistroy($event);
+  }
+
   ngOnInit() {
-    this.loadingData();
+    this.chooseDate = moment().format('Y-DD-MM');
+    this.getHistroy();
   }
 }

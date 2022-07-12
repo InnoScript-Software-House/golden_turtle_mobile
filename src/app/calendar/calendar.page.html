@@ -10,19 +10,33 @@
 </ion-header>
 
 <ion-content>
+  <ion-refresher slot="fixed" pullFactor="0.5" pullMin="100" pullMax="200" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="loading data..."
+    >
+  </ion-refresher-content>
+  </ion-refresher>
+
   <ion-text class="pay-attention"> We're closed on every Monday </ion-text>
   <app-change-date-format></app-change-date-format>
-  <div 
-    class="schedule-wrapper"
-    *ngFor="let schedule of scheduleList"
-  >
-    <label class="schedule-label"> {{schedule[0].schedule_date }}</label>
-    <app-schedule-list
-      [timeFormat]="timeFormat" 
-      [scheduleList]="schedule"
-      [header]="false"
-    ></app-schedule-list>
+  
+  <div *ngIf="!isLoading">
+      <div 
+      class="schedule-wrapper"
+      *ngFor="let schedule of scheduleList"
+    >
+      <label class="schedule-label"> {{schedule[0].schedule_date }}</label>
+      <app-schedule-list
+        [timeFormat]="timeFormat" 
+        [scheduleList]="schedule"
+        [header]="false"
+      ></app-schedule-list>
+    </div>
   </div>
+
 </ion-content>
 
 <ion-modal trigger="open-calendar" (willDismiss)="cancel()">

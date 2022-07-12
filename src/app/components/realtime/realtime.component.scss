@@ -1,9 +1,14 @@
+.ion-list-bg {
+    background: #fff!important;
+}
+
 ion-item {
     margin-inline-start: 15px;
     margin-inline-end: 15px;
     --border-width: 2px!important;
     --border-color: #FFD700;
-    --background: #fff;
+    --background: #0532ad;
+    --color: #fff;
 }
 
 .flex-column {
@@ -48,4 +53,15 @@ ion-label > label {
     border-radius: 50%;
     margin-top: 5px;
     margin-bottom: 5px;
+}
+
+.realtime-skeleton {
+    --background: green!important;
+    line-height: 30px;
+    width: 100%;
+}
+
+small {
+    font-size: 14px;
+    padding-top: 5px;
 }

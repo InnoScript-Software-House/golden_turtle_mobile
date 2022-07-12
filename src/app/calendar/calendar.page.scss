@@ -4,18 +4,11 @@ ion-datetime {
     margin-bottom: 15px;
     margin-inline-start: 15px;
     margin-inline-end: 15px;
+    color: var(--ion-color-light);
+    --selected-color: #fff;
     --background: #0532ad;
-    --color: #fff;
-}
-
-ion-datetime {
-    --background-rgb: 0, 17, 253;
-    border-radius: 16px;
-    box-shadow: rgba(0, 17, 253, 0.3) 0px 10px 15px -3px;
-}
-
-ion-button > button {
-    --color: #fff;
+    border-radius: 15px;
+    // box-shadow: rgba(46, 2, 208, 0.3) 0px 10px 15px -3px;
 }
 
 .schedule-wrapper {
@@ -26,4 +19,8 @@ ion-button > button {
     font-size: large;
     font-weight: bold;
     margin-left: 20px;
+}
+
+.ion-padding{
+    --background: rgb(237, 237, 237);
 }

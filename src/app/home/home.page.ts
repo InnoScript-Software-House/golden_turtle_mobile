@@ -13,6 +13,7 @@ export class HomePage implements OnInit {
   timeFormat: string = localStorage.getItem('time-format') === '12-hours' ? 'hh:mm a' : 'H:mm';
   dateTimeformat: string = 'MMM d, y, hh:mm a';
   scheduleList: Array<TODAY_NUMBER> = [];
+  isLoading: boolean = true;
   
   constructor(
     private formatService: FormatService,
@@ -24,9 +25,20 @@ export class HomePage implements OnInit {
     })
   }
 
-  private loadingData = async () => {
+  private loadingData = async ($event?: any) => {
     const today = moment().format('Y-MM-DD');
-    this.scheduleList = await this.dataService.getTodayNumber(today);
+    const response = await this.dataService.getTodayNumber(today);
+    this.scheduleList = response.data;
+    this.isLoading = response.isLoading;
+
+    if($event) {
+      $event.target.complete();
+    }
+  }
+
+  doRefresh($event: any) {
+    this.isLoading = true;
+    this.loadingData($event);
   }
 
   ngOnInit() {
