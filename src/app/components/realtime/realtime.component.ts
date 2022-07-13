@@ -12,15 +12,23 @@ import { map } from 'rxjs/operators'
 })
 export class RealtimeComponent implements OnInit {
 
-  luckyNumber: string;
+  luckyNumber: any;
   currentDate: Date = new Date();
   timerSubscription: Subscription;
   reachTime: boolean = false;
-  btcRate: number;
+  btcRate: any;
   btcPoint: any;
-  etcRate: number;
+  etcRate: any;
   etcPoint: any;
   isLoading: boolean = true;
+  generateNumber: any = {
+    luckyNumber: this.getRandomInt(0,99),
+    btcRate: 0,
+    btcPoint: 0,
+    etcRate: 0,
+    etcPoint: 0
+
+  }
 
   @Input() dateTime: string;
 
@@ -56,31 +64,70 @@ export class RealtimeComponent implements OnInit {
     }
   }
 
-  private remainTime (lasttime){
-    const time = moment(new Date(lasttime).getTime() + 30*60000).valueOf() - moment().valueOf();
-    if(time > 0 ){
-      return time;
-    }
-    return 0;
-  }
+  // private remainTime (lasttime){
+  //   const time = moment(new Date(lasttime).getTime() + 30*60000).valueOf() - moment().valueOf();
+  //   if(time > 0 ){
+  //     return time;
+  //   }
+  //   return 0;
+  // }
   
   async ngOnInit() {
     this.luckyNumber = this.getRandomInt(0,99);
+
     const getBTC = await this.api.getRequest('prices/BTC-HKD/sell');
     const getETC = await this.api.getRequest('prices/ETC-HKD/sell');
 
     const today = moment().format('Y-MM-DD');
 
+    setInterval(() => {
+      this.generateNumber.luckyNumber = this.getRandomInt(0,99);
+
+      this.generateNumber = {
+        luckyNumber : this.getRandomInt(0, 100),
+        btcRate :  parseInt(getBTC.data.amount) + Number(this.getRandomInt(0, 100)) + '.' + this.getRandomInt(0,9).charAt(0) + this.luckyNumber.charAt(1),
+        etcRate :  parseInt(getETC.data.amount) + Number(this.getRandomInt(0, 100)) + '.' + this.getRandomInt(0,9).charAt(0) + this.luckyNumber.charAt(1)
+      }
+    }, 1000);
+
     // let getTime = this.currentDate.toLocaleString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }).toString();
     const todayNumber = (await this.dataService.getTodayNumber(today)).data;
 
     const format = 'hh:mm A'; 
-    const startTime = moment('12:00 AM', format);
-    const endTime = moment('2:00 PM', format);
-    const currentTime = moment().format(format);
 
-    const isAfter = moment(currentTime , format).isBetween(startTime, endTime);
-    console.log(isAfter)
+    setInterval(() => {
+      const currentTime = moment().format(format);
+      const nextSchedules = todayNumber.filter(value => value.lucky_number !== null);
+      const nextNumber = nextSchedules[nextSchedules.length - 1];
+      const start_time = moment(nextNumber.schedule_time);
+
+      let end_time;
+
+      if(nextNumber.schedule_time === moment().format('Y-MM-DD') + ' 9:00 PM') {
+        end_time = moment(nextNumber.schedule_time).add(630, 'minute');
+      } else {
+        end_time = moment(nextNumber.schedule_time).add(30, 'minute');
+      }
+
+      const isBetween = moment(currentTime , format).isBetween(start_time, end_time);
+
+      console.log(isBetween);
+
+      if(isBetween === false) {
+        this.luckyNumber = this.generateNumber.luckyNumber;
+        this.btcRate = this.generateNumber.btcRate;
+        this.btcPoint = this.generateNumber.btcPoint;
+        this.etcRate = this.generateNumber.etcRate;
+        this.etcPoint = this.generateNumber.etcPoint;
+      }
+
+      if(isBetween) {
+        this.luckyNumber = nextNumber.lucky_number;
+        this.btcRate = nextNumber.btc;
+        this.etcRate = nextNumber.etc;
+      }
+
+    }, 1000);
 
 
     // const format = 'hh:mm A'
@@ -97,69 +144,69 @@ export class RealtimeComponent implements OnInit {
     //   console.log(false)
     // }
 
-    let startNumber: any = setInterval(() => {
-      this.luckyNumber = this.getRandomInt(0, 99);
-      this.btcRate = parseInt(getBTC.data.amount) + parseInt(this.getRandomInt(100, 999));
-      this.btcPoint = Math.floor(Math.random() * (9 - 0) + 0) + this.luckyNumber.slice(0,1);
-      this.etcRate = parseInt(getETC.data.amount) + parseInt(this.getRandomInt(10,99));
-      this.etcPoint = Math.floor(Math.random() * (9 - 0) + 0)+this.luckyNumber.slice(1,2);
-    }, 6000);
+    // let startNumber: any = setInterval(() => {
+    //   this.luckyNumber = this.getRandomInt(0, 99);
+    //   this.btcRate = parseInt(getBTC.data.amount) + parseInt(this.getRandomInt(100, 999));
+    //   this.btcPoint = Math.floor(Math.random() * (9 - 0) + 0) + this.luckyNumber.slice(0,1);
+    //   this.etcRate = parseInt(getETC.data.amount) + parseInt(this.getRandomInt(10,99));
+    //   this.etcPoint = Math.floor(Math.random() * (9 - 0) + 0)+this.luckyNumber.slice(1,2);
+    // }, 6000);
 
 
-    this.timerSubscription = timer(0, 10000).pipe(
-      map(() => {
-        const currentTime = moment().format('h:mm A');
+    // this.timerSubscription = timer(0, 10000).pipe(
+    //   map(() => {
+    //     const currentTime = moment().format('h:mm A');
 
-        if(todayNumber){
-          const getLuckyNumber = todayNumber.filter((value: any) => value.lucky_number !== null && moment(new Date(value.schedule_time).getTime()).format('h:mm A') >= currentTime);
-          getLuckyNumber.map((value: any, index: number) => {
+    //     if(todayNumber){
+    //       const getLuckyNumber = todayNumber.filter((value: any) => value.lucky_number !== null && moment(new Date(value.schedule_time).getTime()).format('h:mm A') >= currentTime);
+    //       getLuckyNumber.map((value: any, index: number) => {
             
-            const luckyHour = moment(new Date(value.schedule_time).getTime()).format('h:mm A');
-            const interval = moment(new Date(value.schedule_time).getTime() + 30*60000).format('h:mm A');
+    //         const luckyHour = moment(new Date(value.schedule_time).getTime()).format('h:mm A');
+    //         const interval = moment(new Date(value.schedule_time).getTime() + 30*60000).format('h:mm A');
 
-            if( ( currentTime >= luckyHour && currentTime <= interval ) && this.reachTime === false){
-              clearInterval(startNumber);
-              this.luckyNumber = value.lucky_number.toString();
-              this.reachTime = true;
-              this.btcRate = parseInt(getBTC.data.amount);
-              this.btcPoint = Math.floor(Math.random() * (9 - 0) + 0)+this.luckyNumber.slice(0,1);
-              this.etcRate = parseInt(getETC.data.amount);
-              this.etcPoint = Math.floor(Math.random() * (9 - 0) + 0)+this.luckyNumber.slice(1,2);
-              if( currentTime >= '9:00 PM'){
+    //         if( ( currentTime >= luckyHour && currentTime <= interval ) && this.reachTime === false){
+    //           clearInterval(startNumber);
+    //           this.luckyNumber = value.lucky_number.toString();
+    //           this.reachTime = true;
+    //           this.btcRate = parseInt(getBTC.data.amount);
+    //           this.btcPoint = Math.floor(Math.random() * (9 - 0) + 0)+this.luckyNumber.slice(0,1);
+    //           this.etcRate = parseInt(getETC.data.amount);
+    //           this.etcPoint = Math.floor(Math.random() * (9 - 0) + 0)+this.luckyNumber.slice(1,2);
+    //           if( currentTime >= '9:00 PM'){
 
-                setTimeout(() => {
-                  startNumber = setInterval(() => {
-                    this.luckyNumber = this.getRandomInt(0, 99);
-                    this.btcRate = parseInt(getBTC.data.amount) + parseInt(this.getRandomInt(10, 99));
-                    this.btcPoint = Math.floor(Math.random() * (9 - 0) + 0)+this.luckyNumber.slice(0,1);
-                    this.etcRate = parseInt(getETC.data.amount) + parseInt(this.getRandomInt(10,99));
-                    this.etcPoint = Math.floor(Math.random() * (9 - 0) + 0)+this.luckyNumber.slice(1,2);
-                  },6000);
-                  this.reachTime = false;
-                },this.remainTime(value.schedule_time + 600 * 60000));
-                return;
-              }
-              setTimeout(() => {
-                startNumber = setInterval(() => {
-                  this.luckyNumber = this.getRandomInt(0, 99);
-                  this.btcRate = parseInt(getBTC.data.amount) + parseInt(this.getRandomInt(10, 99));
-                  this.btcPoint = Math.floor(Math.random() * (9 - 0) + 0)+this.luckyNumber.slice(0,1);
-                  this.etcRate = parseInt(getETC.data.amount) + parseInt(this.getRandomInt(10,99));
-                  this.etcPoint = Math.floor(Math.random() * (9 - 0) + 0)+this.luckyNumber.slice(1,2);
-                },6000);
-                this.reachTime = false;
-              }, this.remainTime(value.schedule_time));
-              return;
-            }
-            else{
-              return;
-            }
-          });
-        }
+    //             setTimeout(() => {
+    //               startNumber = setInterval(() => {
+    //                 this.luckyNumber = this.getRandomInt(0, 99);
+    //                 this.btcRate = parseInt(getBTC.data.amount) + parseInt(this.getRandomInt(10, 99));
+    //                 this.btcPoint = Math.floor(Math.random() * (9 - 0) + 0)+this.luckyNumber.slice(0,1);
+    //                 this.etcRate = parseInt(getETC.data.amount) + parseInt(this.getRandomInt(10,99));
+    //                 this.etcPoint = Math.floor(Math.random() * (9 - 0) + 0)+this.luckyNumber.slice(1,2);
+    //               },6000);
+    //               this.reachTime = false;
+    //             },this.remainTime(value.schedule_time + 600 * 60000));
+    //             return;
+    //           }
+    //           setTimeout(() => {
+    //             startNumber = setInterval(() => {
+    //               this.luckyNumber = this.getRandomInt(0, 99);
+    //               this.btcRate = parseInt(getBTC.data.amount) + parseInt(this.getRandomInt(10, 99));
+    //               this.btcPoint = Math.floor(Math.random() * (9 - 0) + 0)+this.luckyNumber.slice(0,1);
+    //               this.etcRate = parseInt(getETC.data.amount) + parseInt(this.getRandomInt(10,99));
+    //               this.etcPoint = Math.floor(Math.random() * (9 - 0) + 0)+this.luckyNumber.slice(1,2);
+    //             },6000);
+    //             this.reachTime = false;
+    //           }, this.remainTime(value.schedule_time));
+    //           return;
+    //         }
+    //         else{
+    //           return;
+    //         }
+    //       });
+    //     }
 
-        this.isLoading = false;
-      })
-    ).subscribe();
+    //     this.isLoading = false;
+    //   })
+    // ).subscribe();
   
 
     this.rates = {
