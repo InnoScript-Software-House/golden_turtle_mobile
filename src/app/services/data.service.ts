@@ -45,13 +45,14 @@ export class DataService {
     };
 
     const response = await Http.get(options);
-
+    
     if(response && response.status === 200) {
       getTodayNumber = response.data.data;
     }
 
     getTodayNumber.map((value: TODAY_NUMBER) => {
       defaultNumber.map((data) => {
+
         if(data.schedule_time === value.schedule_time) {
           data.btc = value.btc;
           data.etc = value.etc;

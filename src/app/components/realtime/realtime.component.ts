@@ -1,18 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
-import { FormatService } from 'src/app/services/format.service';
 import { ApiService } from 'src/app/shares/api.service';
 import * as moment from 'moment';
 import { Subscription, timer } from 'rxjs';
-import { last, map } from 'rxjs/operators'
-
-const data = {
-    btc: "343543",
-    etc: "200450",
-    lucky_number: "51",
-    schedule_date: "2022-07-10",
-    schedule_time: "2022-07-10 9:00 PM"
-}
+import { map } from 'rxjs/operators'
 
 @Component({
   selector: 'app-realtime',
@@ -75,8 +66,8 @@ export class RealtimeComponent implements OnInit {
   
   async ngOnInit() {
     this.luckyNumber = this.getRandomInt(0,99);
-    const getBTC = await this.api.getRequest('prices/BTC-MMK/sell');
-    const getETC = await this.api.getRequest('prices/ETC-MMK/sell');
+    const getBTC = await this.api.getRequest('prices/BTC-HKD/sell');
+    const getETC = await this.api.getRequest('prices/ETC-HKD/sell');
 
     const today = moment().format('Y-MM-DD');
 
@@ -85,9 +76,9 @@ export class RealtimeComponent implements OnInit {
 
     let startNumber: any = setInterval(() => {
       this.luckyNumber = this.getRandomInt(0, 99);
-      this.btcRate = parseInt(getBTC.data.amount) + parseInt(this.getRandomInt(10000, 99999));
-      this.btcPoint = this.luckyNumber.slice(0,1) + Math.floor(Math.random() * (9 - 0) + 0);
-      this.etcRate = parseInt(getETC.data.amount) + parseInt(this.getRandomInt(1000,9999));
+      this.btcRate = parseInt(getBTC.data.amount) + parseInt(this.getRandomInt(100, 999));
+      this.btcPoint = Math.floor(Math.random() * (9 - 0) + 0) + this.luckyNumber.slice(0,1);
+      this.etcRate = parseInt(getETC.data.amount) + parseInt(this.getRandomInt(10,99));
       this.etcPoint = Math.floor(Math.random() * (9 - 0) + 0)+this.luckyNumber.slice(1,2);
     }, 6000);
 
@@ -116,9 +107,9 @@ export class RealtimeComponent implements OnInit {
                 setTimeout(() => {
                   startNumber = setInterval(() => {
                     this.luckyNumber = this.getRandomInt(0, 99);
-                    this.btcRate = parseInt(getBTC.data.amount) + parseInt(this.getRandomInt(10000, 99999));
+                    this.btcRate = parseInt(getBTC.data.amount) + parseInt(this.getRandomInt(10, 99));
                     this.btcPoint = Math.floor(Math.random() * (9 - 0) + 0)+this.luckyNumber.slice(0,1);
-                    this.etcRate = parseInt(getETC.data.amount) + parseInt(this.getRandomInt(1000,9999));
+                    this.etcRate = parseInt(getETC.data.amount) + parseInt(this.getRandomInt(10,99));
                     this.etcPoint = Math.floor(Math.random() * (9 - 0) + 0)+this.luckyNumber.slice(1,2);
                   },6000);
                   this.reachTime = false;
@@ -128,9 +119,9 @@ export class RealtimeComponent implements OnInit {
               setTimeout(() => {
                 startNumber = setInterval(() => {
                   this.luckyNumber = this.getRandomInt(0, 99);
-                  this.btcRate = parseInt(getBTC.data.amount) + parseInt(this.getRandomInt(10000, 99999));
+                  this.btcRate = parseInt(getBTC.data.amount) + parseInt(this.getRandomInt(10, 99));
                   this.btcPoint = Math.floor(Math.random() * (9 - 0) + 0)+this.luckyNumber.slice(0,1);
-                  this.etcRate = parseInt(getETC.data.amount) + parseInt(this.getRandomInt(1000,9999));
+                  this.etcRate = parseInt(getETC.data.amount) + parseInt(this.getRandomInt(10,99));
                   this.etcPoint = Math.floor(Math.random() * (9 - 0) + 0)+this.luckyNumber.slice(1,2);
                 },6000);
                 this.reachTime = false;

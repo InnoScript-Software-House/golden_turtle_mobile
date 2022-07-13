@@ -19,5 +19,6 @@ export class ScheduleListComponent implements OnInit {
 
   ngOnInit() {
     this.targeDate = moment().format('Y-DD-MM');
+    console.log(this.scheduleList);
   }
 }

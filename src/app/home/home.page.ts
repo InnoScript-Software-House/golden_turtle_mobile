@@ -28,6 +28,7 @@ export class HomePage implements OnInit {
   private loadingData = async ($event?: any) => {
     const today = moment().format('Y-MM-DD');
     const response = await this.dataService.getTodayNumber(today);
+
     this.scheduleList = response.data;
     this.isLoading = response.isLoading;
 

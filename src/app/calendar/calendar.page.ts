@@ -64,19 +64,19 @@ export class CalendarPage implements OnInit {
 
   search = async ($event: any) => {
     this.isLoading = true;
-    this.chooseDate = moment($event.target.value).format('Y-DD-MM');
+    this.chooseDate = moment($event.target.value).format('Y-MM-DD');
     this.scheduleList = [];
     this.getHistroy();
   }
 
   doRefresh($event: any) {
     this.isLoading = true;
-    this.chooseDate = moment().format('Y-DD-MM');
+    this.chooseDate = moment().format('Y-MM-DD');
     this.getHistroy($event);
   }
 
   ngOnInit() {
-    this.chooseDate = moment().format('Y-DD-MM');
+    this.chooseDate = moment().format('Y-MM-DD');
     this.getHistroy();
   }
 }

@@ -94,7 +94,7 @@ export class SettingPage implements OnInit {
   }
 
   ngOnInit() { 
-    this.loadingData();
+    // this.loadingData();
   }
 
 }
