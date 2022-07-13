@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
 import { ApiService } from 'src/app/shares/api.service';
 import * as moment from 'moment';
-import { Subscription, timer } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-realtime',
@@ -72,8 +72,6 @@ export class RealtimeComponent implements OnInit {
     const getBTC = await this.api.getRequest('prices/BTC-HKD/sell');
     const getETC = await this.api.getRequest('prices/ETC-HKD/sell');
 
-    const today = moment().format('Y-MM-DD');
-
     setInterval(() => {
       const randomNumber = this.getRandomInt(0,99);
 
@@ -84,26 +82,57 @@ export class RealtimeComponent implements OnInit {
       }
     }, 6000);
 
-    // let getTime = this.currentDate.toLocaleString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }).toString();
+    const format = 'hh:mm A'; 
+    const today = moment().format('Y-MM-DD');
     const todayNumber = (await this.dataService.getTodayNumber(today)).data;
 
-    const format = 'hh:mm A'; 
+    // console.log('today_number', todayNumber);
+
+    if(todayNumber[0].lucky_number === null ) {
+     // console.log('set_previous_number');
+
+      const previous_date = moment(today).subtract(1, 'day').format('Y-MM-DD');
+      const getPrevoiusNumber = (await this.dataService.getTodayNumber(previous_date)).data;
+
+     // console.log('previous number', getPrevoiusNumber);
+      localStorage.setItem('previous_numbers', JSON.stringify(getPrevoiusNumber));
+    }
+
+    const retrive_previous_number = JSON.parse(localStorage.getItem('previous_numbers'));
+    // console.log('retrive_previous_number', retrive_previous_number);
 
     setInterval(() => {
       const currentTime = moment().format(format);
-      const nextSchedules = todayNumber.filter(value => value.lucky_number !== null);
+      const nextSchedules = todayNumber[0].lucky_number !== null ? todayNumber.filter(value => value.lucky_number !== null) : retrive_previous_number.filter(value => value.lucky_number !== null);
+      // console.log('get_next_schedule', nextSchedules);
+
       const nextNumber = nextSchedules[nextSchedules.length - 1];
+      // console.log('get last', nextNumber);
+
       const start_time = moment(nextNumber.schedule_time);
+      // console.log('brake_start_time', start_time);
 
       let end_time;
 
-      if(nextNumber.schedule_time === moment().format('Y-MM-DD') + ' 9:00 PM') {
+      // console.log('check next schedule time', nextNumber.schedule_time);
+      // console.log('filter time', moment().format('Y-MM-DD') + ' 9:00 PM');
+
+      const lastScheduleTime = moment(nextNumber.schedule_time).format('hh:mm A');
+      // const next_end_time = moment(today + ' 7:00 AM');
+      // const duration = moment.duration(next_end_time.diff(moment().format('Y-MM-DD h:mm A')));
+
+      // const getLimit = duration.asMinutes();
+      // console.log(getLimit);
+
+      if(lastScheduleTime === '09:00 PM') {
         end_time = moment(nextNumber.schedule_time).add(630, 'minute');
       } else {
         end_time = moment(nextNumber.schedule_time).add(30, 'minute');
       }
 
       const isBetween = moment(currentTime , format).isBetween(start_time, end_time);
+
+      // .log(isBetween);
 
       if(isBetween === false) {
         this.luckyNumber = this.generateNumber.luckyNumber;

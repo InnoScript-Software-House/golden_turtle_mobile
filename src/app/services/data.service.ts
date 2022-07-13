@@ -32,12 +32,15 @@ export class DataService {
   public getTodayNumber = async (date: string) => {
     let getTodayNumber: Array<TODAY_NUMBER> = [];
 
+    const dateFormat = 'YYYY-MM-DD';
+    const scheduleDate = moment(date, dateFormat).format(dateFormat);
+
     const defaultNumber: Array<TODAY_NUMBER> = [
-      { schedule_time: '11:00 AM', btc: 0, etc: 0, lucky_number: null, schedule_date: moment(date, 'Y-DD-MM').format('Y-MM-DD') },
-      { schedule_time: '1:30 PM', btc: 0, etc: 0, lucky_number: null, schedule_date: moment(date, 'Y-DD-MM').format('Y-MM-DD') },
-      { schedule_time: '4:00 PM', btc: 0, etc: 0, lucky_number: null, schedule_date: moment(date, 'Y-DD-MM').format('Y-MM-DD') },
-      { schedule_time: '6:30 PM', btc: 0, etc: 0, lucky_number: null, schedule_date: moment(date, 'Y-DD-MM').format('Y-MM-DD') },
-      { schedule_time: '9:00 PM', btc: 0, etc: 0, lucky_number: null, schedule_date: moment(date, 'Y-DD-MM').format('Y-MM-DD') }
+      { schedule_time: '11:00 AM', btc: 0, etc: 0, lucky_number: null, schedule_date: scheduleDate },
+      { schedule_time: '1:30 PM', btc: 0, etc: 0, lucky_number: null, schedule_date: scheduleDate },
+      { schedule_time: '4:00 PM', btc: 0, etc: 0, lucky_number: null, schedule_date: scheduleDate },
+      { schedule_time: '6:30 PM', btc: 0, etc: 0, lucky_number: null, schedule_date: scheduleDate },
+      { schedule_time: '9:00 PM', btc: 0, etc: 0, lucky_number: null, schedule_date: scheduleDate }
     ];
 
     const options = {
@@ -52,7 +55,6 @@ export class DataService {
 
     getTodayNumber.map((value: TODAY_NUMBER) => {
       defaultNumber.map((data) => {
-
         if(data.schedule_time === value.schedule_time) {
           data.btc = value.btc;
           data.etc = value.etc;
@@ -68,6 +70,13 @@ export class DataService {
       value.schedule_time = value.schedule_date + ' ' + value.schedule_time;
       return value;
     });
+
+    if(getTodayNumber.length === 0) {
+      return {
+        data: defaultNumber,
+        isLoading: false
+      };
+    }
     
     return {
       data: result,
