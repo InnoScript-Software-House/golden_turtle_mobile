@@ -1,14 +1,16 @@
-<ion-list>
+<ion-list class="ion-list-bg">
   <ion-list-header> Updated At : {{ currentDate | date: dateTime }} </ion-list-header>
   <ion-item lines="none">
     <ion-label slot="start" class="flex-column"> 
       <label> {{ rates.btc.base }} </label>
-      <small> {{ btcRate | number: '1.0-0': 'en' }}.{{btcPoint}} </small>
+      <span *ngIf="isLoading"> --- </span>
+      <small *ngIf="!isLoading"> {{ btcRate | number: '1.0-0': 'en' }}.{{btcPoint}} </small>
     </ion-label>
 
     <ion-label slot="end" class="flex-column-end">
       <label> {{ rates.etc.base }} </label>
-      <small> {{ etcRate | number: '1.0-0': 'en' }}.{{etcPoint}} </small>
+      <span *ngIf="isLoading"> --- </span>
+      <small *ngIf="!isLoading"> {{ etcRate | number: '1.0-0': 'en' }}.{{etcPoint}} </small>
     </ion-label>
   </ion-item>
 </ion-list>

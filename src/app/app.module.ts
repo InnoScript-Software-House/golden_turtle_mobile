@@ -12,12 +12,15 @@ import { AppRoutingModule } from './app-routing.module';
 /**
  * Import provider for service
  */
-
+ import { FormatService } from './services/format.service';
+ import { AppVersion } from '@awesome-cordova-plugins/app-version/ngx';
+ import { InAppReview } from '@awesome-cordova-plugins/in-app-review/ngx';
+ import { AppRate } from '@awesome-cordova-plugins/app-rate/ngx';
 /** 
  * Import component
  */
 import { AppComponent } from './app.component';
-import { FormatService } from './services/format.service';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,11 +28,14 @@ import { FormatService } from './services/format.service';
     BrowserModule, 
     IonicModule.forRoot(), 
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    FormatService
+    FormatService,
+    AppVersion,
+    InAppReview,
+    AppRate
   ],
   bootstrap: [AppComponent],
 })
