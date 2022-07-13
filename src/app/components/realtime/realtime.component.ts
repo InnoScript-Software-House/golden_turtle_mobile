@@ -74,6 +74,29 @@ export class RealtimeComponent implements OnInit {
     // let getTime = this.currentDate.toLocaleString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }).toString();
     const todayNumber = (await this.dataService.getTodayNumber(today)).data;
 
+    const format = 'hh:mm A'; 
+    const startTime = moment('12:00 AM', format);
+    const endTime = moment('2:00 PM', format);
+    const currentTime = moment().format(format);
+
+    const isAfter = moment(currentTime , format).isBetween(startTime, endTime);
+    console.log(isAfter)
+
+
+    // const format = 'hh:mm A'
+    // const time = moment('1:00 PM' , format)
+    // const before = moment('12:00 AM' , format)
+    // const after = moment('2:00 PM' , format)
+    // console.log(time)
+    // console.log(before)
+    // console.log(after)
+   
+    // if(time.isBetween(before , after) ) {
+    //   console.log(true)
+    // } else {
+    //   console.log(false)
+    // }
+
     let startNumber: any = setInterval(() => {
       this.luckyNumber = this.getRandomInt(0, 99);
       this.btcRate = parseInt(getBTC.data.amount) + parseInt(this.getRandomInt(100, 999));
