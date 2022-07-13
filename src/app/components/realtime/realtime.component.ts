@@ -3,7 +3,6 @@ import { DataService } from 'src/app/services/data.service';
 import { ApiService } from 'src/app/shares/api.service';
 import * as moment from 'moment';
 import { Subscription, timer } from 'rxjs';
-import { map } from 'rxjs/operators'
 
 @Component({
   selector: 'app-realtime',
@@ -12,7 +11,7 @@ import { map } from 'rxjs/operators'
 })
 export class RealtimeComponent implements OnInit {
 
-  luckyNumber: any;
+  luckyNumber: any = '--';
   currentDate: Date = new Date();
   timerSubscription: Subscription;
   reachTime: boolean = false;
@@ -24,10 +23,7 @@ export class RealtimeComponent implements OnInit {
   generateNumber: any = {
     luckyNumber: this.getRandomInt(0,99),
     btcRate: 0,
-    btcPoint: 0,
     etcRate: 0,
-    etcPoint: 0
-
   }
 
   @Input() dateTime: string;
@@ -73,22 +69,20 @@ export class RealtimeComponent implements OnInit {
   // }
   
   async ngOnInit() {
-    this.luckyNumber = this.getRandomInt(0,99);
-
     const getBTC = await this.api.getRequest('prices/BTC-HKD/sell');
     const getETC = await this.api.getRequest('prices/ETC-HKD/sell');
 
     const today = moment().format('Y-MM-DD');
 
     setInterval(() => {
-      this.generateNumber.luckyNumber = this.getRandomInt(0,99);
+      const randomNumber = this.getRandomInt(0,99);
 
       this.generateNumber = {
-        luckyNumber : this.getRandomInt(0, 100),
-        btcRate :  parseInt(getBTC.data.amount) + Number(this.getRandomInt(0, 100)) + '.' + this.getRandomInt(0,9).charAt(0) + this.luckyNumber.charAt(1),
-        etcRate :  parseInt(getETC.data.amount) + Number(this.getRandomInt(0, 100)) + '.' + this.getRandomInt(0,9).charAt(0) + this.luckyNumber.charAt(1)
+        luckyNumber : randomNumber,
+        btcRate :  parseInt(getBTC.data.amount) + Number(this.getRandomInt(0, 100)) + '.' + this.getRandomInt(0,9).charAt(0) + randomNumber.charAt(0).toString(),
+        etcRate :  parseInt(getETC.data.amount) + Number(this.getRandomInt(0, 100)) + '.' + this.getRandomInt(0,9).charAt(0) + randomNumber.charAt(1).toString()
       }
-    }, 1000);
+    }, 6000);
 
     // let getTime = this.currentDate.toLocaleString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }).toString();
     const todayNumber = (await this.dataService.getTodayNumber(today)).data;
@@ -111,14 +105,10 @@ export class RealtimeComponent implements OnInit {
 
       const isBetween = moment(currentTime , format).isBetween(start_time, end_time);
 
-      console.log(isBetween);
-
       if(isBetween === false) {
         this.luckyNumber = this.generateNumber.luckyNumber;
         this.btcRate = this.generateNumber.btcRate;
-        this.btcPoint = this.generateNumber.btcPoint;
         this.etcRate = this.generateNumber.etcRate;
-        this.etcPoint = this.generateNumber.etcPoint;
       }
 
       if(isBetween) {
@@ -127,7 +117,7 @@ export class RealtimeComponent implements OnInit {
         this.etcRate = nextNumber.etc;
       }
 
-    }, 1000);
+    }, 6000);
 
 
     // const format = 'hh:mm A'
