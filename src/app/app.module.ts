@@ -16,6 +16,7 @@ import { AppRoutingModule } from './app-routing.module';
  import { AppVersion } from '@awesome-cordova-plugins/app-version/ngx';
  import { InAppReview } from '@awesome-cordova-plugins/in-app-review/ngx';
  import { AppRate } from '@awesome-cordova-plugins/app-rate/ngx';
+ import { GoogleAnalytics } from '@awesome-cordova-plugins/google-analytics/ngx';
 /** 
  * Import component
  */
@@ -34,6 +35,7 @@ import { AppComponent } from './app.component';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     FormatService,
     AppVersion,
+    GoogleAnalytics,
     InAppReview,
     AppRate
   ],
