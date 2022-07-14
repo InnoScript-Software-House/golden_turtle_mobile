@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonModal, Platform } from '@ionic/angular';
 import { AppVersion } from '@awesome-cordova-plugins/app-version/ngx';
-import { InAppReview } from '@awesome-cordova-plugins/in-app-review/ngx';
-import { AppRate } from '@awesome-cordova-plugins/app-rate/ngx';
+// import { InAppReview } from '@awesome-cordova-plugins/in-app-review/ngx';
+// import { AppRate } from '@awesome-cordova-plugins/app-rate/ngx';
 import { DataService } from '../services/data.service';
 
 @Component({
@@ -25,8 +25,8 @@ export class SettingPage implements OnInit {
   constructor(
     private appVersion: AppVersion,
     private platform: Platform,
-    private inAppReview: InAppReview,
-    private appRate: AppRate,
+    // private inAppReview: InAppReview,
+    // private appRate: AppRate,
     private dataService: DataService
   ) { 
 
@@ -58,32 +58,32 @@ export class SettingPage implements OnInit {
     })
   }
 
-  private loadingData = async () => {
-    const response = await this.dataService.getAboutUs();
+  // private loadingData = async () => {
+  //   const response = await this.dataService.getAboutUs();
 
-    this.about_us = response.data.about_us;
-  }
+  //   this.about_us = response.data.about_us;
+  // }
 
-  openRate() {
+  // openRate() {
 
-    this.appRate.setPreferences({
-      usesUntilPrompt: 3,
-      storeAppURL: {
-        android: 'market://details?id=&lt;package_name>'
-      }
-    });
+  //   this.appRate.setPreferences({
+  //     usesUntilPrompt: 3,
+  //     storeAppURL: {
+  //       android: 'market://details?id=&lt;package_name>'
+  //     }
+  //   });
 
-    this.appRate.promptForRating(true);
-  }
+  //   this.appRate.promptForRating(true);
+  // }
 
-  appDownload = () => {
-    this.appRate.setPreferences({
-      storeAppURL: {
-        android: 'market://details?id=&lt;package_name>'
-      }
-    });
-    this.appRate.navigateToAppStore();
-  }
+  // appDownload = () => {
+  //   this.appRate.setPreferences({
+  //     storeAppURL: {
+  //       android: 'market://details?id=&lt;package_name>'
+  //     }
+  //   });
+  //   this.appRate.navigateToAppStore();
+  // }
 
   openDownload = () => {
 

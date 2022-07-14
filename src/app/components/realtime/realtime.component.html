@@ -3,14 +3,12 @@
   <ion-item lines="none">
     <ion-label slot="start" class="flex-column"> 
       <label> {{ rates.btc.base }} </label>
-      <span *ngIf="isLoading"> --- </span>
-      <small *ngIf="!isLoading"> {{ btcRate | number: '1.0-0': 'en' }}.{{btcPoint}} </small>
+      <small> {{ btcRate }} </small>
     </ion-label>
 
     <ion-label slot="end" class="flex-column-end">
       <label> {{ rates.etc.base }} </label>
-      <span *ngIf="isLoading"> --- </span>
-      <small *ngIf="!isLoading"> {{ etcRate | number: '1.0-0': 'en' }}.{{etcPoint}} </small>
+      <small> {{ etcRate }} </small>
     </ion-label>
   </ion-item>
 </ion-list>
