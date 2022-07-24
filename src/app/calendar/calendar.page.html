@@ -28,7 +28,7 @@
       class="schedule-wrapper"
       *ngFor="let schedule of scheduleList"
     >
-      <label class="schedule-label"> {{schedule[0].schedule_date }}</label>
+      <label class="schedule-label"> {{schedule[0].schedule_date}} ({{schedule[0].schedule_date | date: 'EEE'}}) </label>
       <app-schedule-list
         [timeFormat]="timeFormat" 
         [scheduleList]="schedule"

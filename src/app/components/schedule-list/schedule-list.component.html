@@ -1,6 +1,6 @@
 <ion-list>
   <ion-list-header *ngIf="header">
-    <ion-label> {{ targeDate }} </ion-label>
+    <ion-label> {{ targeDate }} ({{ targeDate | date: 'EEE' }}) </ion-label>
   </ion-list-header>
   <ion-item 
     lines="none" 
@@ -8,7 +8,7 @@
     *ngFor="let schedule of scheduleList"
   >
     <ion-label slot="start" class="flex-column"> 
-      <label class="title"> {{ schedule.schedule_time | date: timeFormat }}</label>
+      <label class="title"> {{ schedule.schedule_time | date: timeFormat }} </label>
     </ion-label>
 
     <ion-label slot="end" class="flex-column-end">
