@@ -18,6 +18,6 @@ export class ScheduleListComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.targeDate = moment().format('Y-DD-MM');
+    this.targeDate = moment().format('Y-DD-MM (ddd)');
   }
 }
